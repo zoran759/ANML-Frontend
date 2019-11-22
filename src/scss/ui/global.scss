@@ -28,6 +28,11 @@ body {
   font-size: $font-size;
   color: $color-text;
   overscroll-behavior: contain;
+  
+
+  a{
+    cursor: inherit !important;
+  }
 
   *::-webkit-scrollbar,
   &::-webkit-scrollbar {

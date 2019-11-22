@@ -42,6 +42,7 @@ function init() {
   }, false);
 
   if (typeof isIndex == 'undefined') {
+    disable_scroll();
 
     isIntro = false;
 
@@ -284,6 +285,10 @@ function initContent() {
     elements_selector: "[data-src]",
     use_native: true,
   });
+
+  setTimeout(()=>{
+    enable_scroll();
+  }, 600);
 }
 
 function initConfigs(){
@@ -713,7 +718,8 @@ function initLinks() {
 };
 
 function navigate(href, delay, delayP = 900, e) {
-  enable_scroll();
+  disable_scroll();
+
   scrollNextCount = 0;
   if (!isNav) {
 
