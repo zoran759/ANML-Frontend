@@ -1,0 +1,40 @@
+*[data-sep]{
+  display: flex;
+  overflow: hidden;
+  opacity: 0;
+  color: $color-white;
+
+  >div {
+    transform: translateY(500%);
+    opacity: 0;
+    transition: all $transition*3 cubic-bezier(0.09, 0.34, 0, 1);
+
+    &.d0 {
+      transition-duration:  $transition*3;
+    }
+    &.d1 {
+      transition-duration:  $transition*4;
+    }
+    &.d2 {
+      transition-duration:  $transition*5;
+    }
+  }
+
+  &.play{
+    opacity: 1;
+    >div {
+      &.d0 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      &.d1 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      &.d2 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}

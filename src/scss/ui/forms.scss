@@ -1,0 +1,175 @@
+form {
+  &::-webkit-input-placeholder {
+    font-family: $font-family-secondary;
+  }
+  &::-moz-placeholder {
+    font-family: $font-family-secondary;
+  }
+  &:-ms-input-placeholder {
+    font-family: $font-family-secondary;
+  }
+  &:-moz-placeholder {
+    font-family: $font-family-secondary;
+  }
+
+  button {
+    font-family: $font-family-additional;
+    font-weight: 600;
+  }
+
+  .form-group {
+    position: relative;
+    margin-top: 56px;
+  }
+
+  .inputMaterial {
+    font-size: 0.9375rem;
+    font-family: $font-family-secondary;
+    color: $color-white;
+    background-color: transparent;
+    padding: 15px 10px 15px 0;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $color-black-border;
+  }
+
+  .sp-border {
+    .inputMaterial {
+      border-top: 10px solid $color-black;
+      border-bottom: 10px solid $color-black;
+    }
+
+    &::after{
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      display: block;
+      width: 100%;
+      border-bottom: 1px solid $color-black-border;
+    }
+  }
+
+  .inputMaterial:focus {
+    outline: none;
+  }
+
+  .form-notification {
+    margin-top: 1rem;
+    padding: 10px;
+    font-family: $font-family-secondary;
+    background: $color-white;
+    color: $color-black;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all $transition ease;
+  }
+
+  &.succes {
+    .form-notification {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  label {
+    color: $color-gray;
+    font-family: $font-family-secondary;
+    font-size: 0.75rem;
+    font-weight: 500;
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 10px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  .inputMaterial:focus ~ label,
+  .inputMaterial[data-empty="false"] ~ label,
+  .has-error .inputMaterial:invalid ~ label {
+    top: -1.2rem;
+    font-size: 0.75rem;
+    color: $color-gray;
+  }
+
+  .has-error .help-block {
+    color: #ff1744;
+  }
+
+  .pristine-error {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: normal;
+    color: $color-white;
+    font-family: $font-family-secondary;
+    transform: translateY(140%);
+  }
+
+  .bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    display: block;
+    height: 1px;
+    width: 100%;
+  }
+
+  .bar:after {
+    content: "";
+    height: 1px;
+    width: 0;
+    top: 0;
+    display: block;
+    left: 0;
+    position: absolute;
+    z-index: 2;
+    background: $color-white;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  .bar:after {
+    left: 0;
+  }
+
+  .inputMaterial:focus ~ .bar:after {
+    width: 100%;
+  }
+
+  @media screen and (max-width: $mobile) {
+    .form-group.mobile-half {
+      margin-top: 40px;
+    }
+  }
+}
+
+@-webkit-keyframes autofill {
+  to {
+    background: transparent;
+  }
+}
+
+input:-webkit-autofill,
+select:-webkit-autofill,
+textarea:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-animation-name: autofill;
+  -webkit-animation-fill-mode: both;
+  font-family: $font-family-secondary;
+  font-size: 0.9375rem;
+  -webkit-box-shadow: inset 0 0 0px 9999px black !important;
+  box-shadow: inset 0 0 0px 9999px black !important;
+  -webkit-text-fill-color: $color-white !important;
+  color: $color-white !important;
+  background-color: transparent;
+}

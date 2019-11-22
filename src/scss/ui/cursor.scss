@@ -1,0 +1,61 @@
+.cursor {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: var(--width);
+	height: var(--height);
+	transform:
+		translate(
+			calc(var(--x) - var(--width) / 2),
+			calc(var(--y) - var(--height) / 2)
+		);
+	transition-duration: .2s;
+	transition-timing-function: cubic-bezier(.25, .25, .42, 1);
+	transition-property: width, height, transform;
+	z-index: 999;
+	pointer-events: none;
+	will-change: transform;
+
+	@media (pointer: fine) {
+		display: block;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-radius: var(--radius);
+		border: 1px solid $color-white;
+		opacity: var(--scale);
+		transform: scale(var(--scale));
+		transition:
+			.3s cubic-bezier(.25, .25, .42, 1) opacity,
+			.3s cubic-bezier(.25, .25, .42, 1) transform,
+			.1s cubic-bezier(.25, .25, .42, 1) border-radius;
+  }
+
+  &.black {
+    &::after {
+      border: 1px solid $color-black;
+    }
+  }
+
+  &.white {
+    &::after {
+      border: 1px solid $color-white;
+    }
+  }
+  
+  @media screen and (max-width: $mobile) {
+    display: none !important;
+  }
+}
+
+body:not(body:hover) .cursor::after {
+	opacity: 0;
+	transform: scale(0);
+}

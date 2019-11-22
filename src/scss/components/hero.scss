@@ -1,0 +1,205 @@
+.hero {
+  width: 100vw;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  position: relative;
+  transition: height $transition*6 ease;
+
+  .cover-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      background-color: $color-black;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    .cover-bg-img {
+      width: 110vw;
+      height: 110vh;
+      left: 0;
+      top: 0;
+      position: absolute;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-position-x: 0 !important;
+      background-position-y: center !important;
+      transform: translateX(-10vw);
+      z-index: 1;
+    }
+
+    .cover-bg-title {
+      position: absolute;
+      top: 60%;
+      left: 16.6666%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity $transition/2 ease;
+      z-index: 3;
+
+      h2 {
+        margin-bottom: 3rem;
+        max-width: 600px;
+        opacity: 0;
+        font-size: 8.375rem;
+        line-height: 8.4rem;
+        margin-bottom: 2.125rem;
+        transform: translateY(8rem);
+        transition: all $transition * 4 cubic-bezier(0.09, 0.34, 0, 1);
+        position: relative;
+      }
+
+      p {
+        opacity: 0;
+        transform: translateY(8rem);
+        margin-bottom: 0;
+        line-height: 1.5rem;
+        transition: all $transition * 4 cubic-bezier(0.09, 0.34, 0, 1);
+      }
+
+      &.middle {
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        max-width: 700px;
+        text-align: center;
+        opacity: 1;
+
+        p {
+          transition-delay: 0s;
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  &.active {
+    .cover-bg {
+      &::before {
+        opacity: 0.5;
+        transition: opacity $transition * 8 cubic-bezier(0.09, 0.34, 0, 1);
+      }
+    }
+
+    .scroll-line {
+      opacity: 1;
+    }
+
+    .cover-bg-title {
+      opacity: 1;
+      pointer-events: all;
+
+      h2 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      p {
+        transition-delay: $transition;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  @media screen and (max-width: $mobile) {
+    .cover-bg {
+      .cover-bg-title {
+        &.middle {
+          max-width: none;
+          width: 283px;
+        }
+      }
+      .offset-10-mb {
+        background-position-x: 10% !important;
+      }
+      .offset-70-mb {
+        background-position-x: 70% !important;
+      }
+      .offset-50-mb {
+        background-position-x: 50% !important;
+      }
+      .offset-39-mb {
+        background-position-x: 39% !important;
+      }
+      .offset-30-mb {
+        background-position-x: 30% !important;
+      }
+      .offset-40-mb {
+        background-position-x: 40% !important;
+      }
+      .offset-35-mb {
+        background-position-x: 35% !important;
+      }
+      .cover-bg-title {
+        top: 70%;
+        left: 2rem;
+        h2 {
+          font-size: 3rem;
+          line-height: 3.1rem;
+          margin-bottom: 0.8rem;
+        }
+        p {
+          margin-top: 0;
+          line-height: 1.8rem;
+        }
+      }
+    }
+
+    &.active {
+      .cover-bg {
+        &::before {
+          opacity: 0.3;
+        }
+      }
+    }
+  }
+}
+
+.scroll-line {
+  position: absolute;
+  opacity: 0;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 20vh;
+  transform: translate(-50%);
+  overflow: hidden;
+  z-index: 13;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: hsla(0, 0%, 100%, 0.75);
+    left: 0;
+    right: auto;
+    top: 0;
+    bottom: auto;
+    width: 100%;
+    height: 100%;
+    animation: scroll-line 1s ease-in-out infinite;
+  }
+
+  &.formenu {
+    opacity: 0 !important;
+  }
+
+  &.active {
+    opacity: 1;
+  }
+}

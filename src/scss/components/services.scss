@@ -1,0 +1,28 @@
+.services {
+  margin-bottom: 2rem;
+
+  .services-title {
+    color: $color-text;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 2.4;
+
+    li{
+      color: rgba($color-text, 0.6);
+    }
+  }
+
+  @media screen and (max-width: $mobile) {
+    ul{
+      li{
+        display: inline-block;
+      }
+    }
+  }
+}

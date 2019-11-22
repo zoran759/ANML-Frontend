@@ -1,0 +1,56 @@
+$color-white: #fff;
+$color-black: #000;
+$color-dark: #343434;
+$color-grid: #c6c6c6;
+$color-lgray: #707070;
+$color-mgray: #959595;
+$color-cover: #f7f7f7;
+$color-image: #fafafa;
+$color-gray: #A8A8A8;
+$color-special: #1a1a1a;
+
+$color-text: $color-dark;
+$color-body: $color-white;
+
+$color-black-border: #BCBCBC;
+
+$font-family: "Crimson Text", tahoma;
+$font-family-additional: "Sharp Sans No1", tahoma;
+$font-family-secondary: "MB Empire", tahoma;
+
+
+$font-size: 16px;
+$font-weight: 400;
+$transition: 300ms;
+
+$cover-transition: 300ms;
+
+$nav-height: 100px;
+$nav-height-mobile: 62px;
+
+$container-padding: 5vw;
+
+$spacer: 14.4rem;
+
+$segments: 6;
+$segments-mobile: 4;
+
+$container-padding-mobile: 2rem;
+$shadow: 0px 12px 84px rgba(0, 0, 0, 0.224496);
+$shadow-hard: 0px 12px 84px rgba(0, 0, 0, 0.5);
+
+// WIDTHS
+
+$widths: (5,10,15,20,25,30,33,35,40,45,50,55,60,65,70,75,80,85,90,95,100);
+
+$lg: 1150px;
+$md: 991px;
+$mobile: 767px;
+$tn: 520px;
+
+$break-points: (
+  "lg": $lg,
+  "md": $md,
+  "mobile": $mobile,
+);
+

@@ -1,0 +1,104 @@
+.grid {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 22;
+  pointer-events: none;
+  transition: opacity $transition ease;
+
+  &.to-back {
+    z-index: 0;
+  }
+
+  .grid-line {
+    width: 100%;
+    height: 100%;
+    transform-origin: top center;
+    transform: scaleY(0);
+    @include shadow(1px 0px 0px 0px rgba($color-grid, 0.2));
+  }
+
+  .simple-grid &{
+    position: absolute;
+    z-index: 2;
+
+    .grid-line {
+      transform: scaleY(1);
+    }
+  }
+
+  .simple-md.simple-grid &{
+    display: none;
+  }
+
+  .simple-md.simple-color &{
+    .grid-line {
+      @include shadow(1px 0px 0px 0px rgba(#747474, 1));
+    }
+  }
+
+  &.op02 {
+    .grid-line {
+      @include shadow(1px 0px 0px 0px rgba($color-grid, 0.2));
+    }
+  }
+
+  &.op0 {
+    .grid-line {
+      @include shadow(1px 0px 0px 0px rgba($color-grid, 0));
+    }
+  }
+
+  &.formenu {
+    z-index: 32 !important;
+
+    .grid-line {
+      @include shadow(1px 0px 0px 0px rgba($color-grid, 0.2));
+    }
+  }
+
+  &.active {
+    .grid-line {
+      transition: transform $transition*5 ease;
+      transform: scaleY(1);
+    }
+  }
+
+  &.active.x5 {
+    .grid-line {
+      transition: transform $transition*5 ease;
+      transform: scaleY(1);
+    }
+  }
+
+  @media screen and (max-width: $md) {
+    .simple-md.simple-grid &{
+      display: flex;
+    }
+    .simple-md-none.simple-grid &{
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: $mobile) {    
+
+    .grid-line {
+      &:nth-child(5){
+        display: none;
+      }  
+      &:nth-child(6){
+        display: none;
+      }  
+    }
+  }
+}
+
+.simple-grid {
+  .container {
+    position: relative;
+    z-index: 4;
+  }
+}

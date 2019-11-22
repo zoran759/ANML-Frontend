@@ -1,0 +1,54 @@
+.tns-outer {
+  position: relative;
+
+  .tns-controls {
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    width: calc(140%);
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+
+    button{
+      background-color: transparent;
+      color: $color-white;
+      border: 0;
+      opacity: 0.5;
+      font-size: 1.4rem;
+      transition: opacity $transition ease;
+
+      &:hover{
+        opacity: 1;
+      }
+    }
+  }
+
+  .tns-nav {
+    padding: $spacer/2;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+
+    button{
+      width: 40px;
+      height: 1px;
+      margin: 0 0.5rem;
+      border:none;
+      background-color: $color-white;
+      opacity: 0.5;
+      transition: opacity $transition ease;
+
+      &.tns-nav-active {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media screen and (max-width: $mobile) {
+    .tns-nav {
+      transform: translateY(2rem);
+      padding: 0;
+    }
+  }
+}

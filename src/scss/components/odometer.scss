@@ -1,0 +1,24 @@
+[odometer] {
+  height: 3rem;
+  overflow: hidden;
+  display: inline-block;
+  line-height: 3rem;
+
+  .odometer-outer{
+    width: 100%;
+    transition: transform $transition*5 ease;
+    transition-delay: 500ms;
+
+    >div {
+      width: 100%;
+      height: 3rem;
+      line-height: 2.95rem;
+    }
+  }
+
+  &.active{
+    .odometer-outer{
+      transform: translateY(calc(-1 * (100% - 3rem)));
+    }
+  }
+}

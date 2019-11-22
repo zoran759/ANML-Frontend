@@ -1,0 +1,42 @@
+h2 {
+  font-size: 2.5rem;
+  line-height: 2.75rem;
+  margin-block-start: 0;
+  margin-block-end: 40px;
+  color: $color-text;
+}
+
+.content {
+  width: 100%;
+  min-height: 100vh;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  color: $color-lgray;
+  position: relative;
+  overflow: hidden;
+  background-color: $color-white;;
+
+  &.active {
+    display: block;
+  }
+
+  p {
+    margin-block-start: 1.4em;
+    margin-block-end: 1.4em;
+  }
+}
+
+@media screen and (max-width: $mobile) {
+  .content {
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.625rem;
+    line-height: 2rem;
+
+    margin-block-end: 1em;
+  }
+}

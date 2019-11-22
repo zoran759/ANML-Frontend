@@ -1,0 +1,90 @@
+.flow-images {
+  padding: 0 calc(100% / #{$segments});
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  opacity: 0;
+
+  &.active{
+    transition: opacity $transition*10 ease;
+    opacity: 1;
+  }
+
+  .flow-images-row {
+    width: 50%;
+    display: inline-block;
+    height: auto;
+    
+    //animation: scroll-line 40s linear infinite;
+
+    >div {
+      > div {
+        overflow: hidden;
+        width: 100%;
+        margin: 30vh 0;
+  
+        &:first-child{
+          margin-top: 0;
+        }
+  
+        &:nth-child(odd) {
+          width: 50%;
+        }
+  
+        img {
+          width: calc(100vw / 3);
+          height: auto;
+          opacity: 0.5;
+        }
+      }
+    }
+
+    &:nth-child(odd) {
+      >div {
+        > div {
+          &:nth-child(odd) {
+            width: 50%;
+          }
+          &:nth-child(even) {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &:nth-child(even) {
+      >div {
+        > div {
+          &:nth-child(odd) {
+            width: 100%;
+          }
+          &:nth-child(even) {
+            margin-left: 50%;
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $mobile) {
+    padding: 0;
+
+    .flow-images-row {
+      width: 50%;
+      
+      >div {
+        > div {
+          img {
+            width: calc(100vw / 2);
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes flow{0%{transform:translateY(0)}to{transform:translateY(100%)}}

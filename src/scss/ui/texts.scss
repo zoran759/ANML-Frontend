@@ -1,0 +1,193 @@
+.text-hero-title {
+  font-size: 6.5rem;
+  color: $color-white;
+  line-height: 5.5rem;
+  font-family: $font-family-additional;
+  text-decoration: none;
+}
+
+.text-link {
+  text-decoration: none;
+}
+
+.text-subtitle {
+  color: $color-white;
+  font-size: 1.75rem;
+}
+
+.text-subtitle-op {
+  color: $color-white;
+  font-size: 1.75rem;
+  opacity: 0.5;
+}
+
+.text-cover {
+  font-size: 1.25rem;
+  line-height: 2rem;
+  color: $color-white;
+}
+
+.text-label {
+  font-family: $font-family-secondary;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12rem;
+}
+
+.text-label-bold {
+  font-family: $font-family-additional;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.12rem;
+}
+
+.text-center {
+  text-align: center;
+  justify-content: center;
+}
+
+.text-light {
+  font-family: $font-family-secondary;
+  font-size: 0.75rem;
+  letter-spacing: 0.3125rem;
+  color: rgba($color-white, 0.7);
+  font-weight: 500;
+  margin-bottom: 0;
+  line-height: 2rem;
+  text-transform: uppercase;
+}
+
+.text-caption {
+  font-family: $font-family-additional;
+  font-size: 4rem;
+  line-height: 4.625rem;
+  color: $color-white;
+  margin: 0;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.text-medium {
+  font-family: $font-family-additional;
+  font-size: 2.5rem;
+  line-height: 2.75rem;
+  font-weight: 900;
+  color: $color-white;
+  display: block;
+  text-decoration: none;
+  margin-bottom: 3rem;
+  margin-top: 0.5rem;
+}
+
+.text-extra {
+  font-family: $font-family-additional;
+  font-size: 3rem;
+  font-weight: 900;
+  color: $color-white;
+}
+
+.text-extra-black {
+  font-family: $font-family-additional;
+  font-size: 3rem;
+  margin-block-end: 30px;
+  font-weight: 900;
+  line-height: 3.75rem;
+  color: $color-black;
+
+}
+
+.color-white {color: $color-white !important;}
+.color-dark {color: $color-mgray !important;}
+.color-black {color: $color-black !important;}
+
+.text-underline {
+  text-decoration: underline !important;
+}
+
+.text-counter {
+  font-family: $font-family-secondary;
+  color: $color-white;
+  font-size: 0.625rem;
+  letter-spacing: 0.10rem;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  span {
+    opacity: 0.5;
+
+    &:first-child{
+      opacity: 1;
+    }
+  }
+
+}
+
+@media screen and (max-width: $mobile) {
+  .text-label-bold {
+    font-size: 0.687rem;
+    letter-spacing: 0.0875rem;
+    line-height: 1.5rem;
+  }
+
+  .text-regular {
+    font-size: 1rem;
+    line-height: 1.625rem;
+  }
+
+  .text-subtitle-op {
+    line-height: 1.625rem;
+  }
+
+  .text-extra {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .text-label {
+    font-size: 0.6875rem !important;
+  }
+
+  .text-cover {
+    font-size: 1rem;
+    line-height: 1.625rem;
+  }
+
+  .text-hero-title {
+    font-size: 2.25rem;
+    line-height: 2.875rem;
+    margin-bottom: 2rem;
+  }
+
+  .text-subtitle {
+    font-size: 1.375rem;
+    line-height: 1.5rem;
+    max-width: 220px;
+  }
+
+  .text-light {
+    font-size: 0.5625rem;
+    letter-spacing: 0.28125rem;
+    line-height: 1.125rem;
+  }
+
+  .text-caption {
+    font-size: 2.25rem;
+    line-height: 2.875rem;
+  }
+
+  .text-medium {
+    font-size: 1.625rem;
+    line-height: 2rem;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .text-extra-black {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}

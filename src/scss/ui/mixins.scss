@@ -1,0 +1,19 @@
+@mixin shadow($params) {
+  -webkit-box-shadow: $params;
+  -moz-box-shadow: $params;
+  box-shadow: $params;
+}
+
+@mixin img-shadow(){
+  box-shadow: 0px 12px 84px rgba(0, 0, 0, 0.224496);
+}
+
+@mixin width($size, $bp) {
+  @if ($bp) {
+    @media screen and (max-width: $bp) {
+      width: #{$size + "%"} !important;
+    }
+  } @else {
+    width: #{$size + "%"} !important;
+  }
+}
