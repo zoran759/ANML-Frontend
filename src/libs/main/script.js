@@ -14,9 +14,11 @@ import Siema from "../siema/siema";
 import LazyLoad from "vanilla-lazyload";
 import Pristine from "pristinejs";
 
-let enter = null, isEntered = false, MaskScrollClass = null, cursor = null, loaded = null, isLoadbar = true, scrollNextCount = 0, isNav = false, hero = null, coverAnimCont = null, intro = null, cover = null, header = null, menuToggler = null, grid = null, menu = null, content = null, next = null, loaderBar = null, isContent = false;
+let enter = null, isEntered = false, state = null, MaskScrollClass = null, mouseX = 0, mouseY = 0, cursor = null, loaded = null, isLoadbar = true, scrollNextCount = 0, isNav = false, hero = null, coverAnimCont = null, intro = null, cover = null, header = null, menuToggler = null, grid = null, menu = null, content = null, next = null, loaderBar = null, isContent = false;
 
-document.body.style.cursor = "url('./assets/img/cursor.svg') 3 3, auto";
+//document.body.style.cursor = "url('./assets/img/cursor.svg') 3 3, auto";
+
+document.body.setAttribute("style", "cursor:url('./assets/img/cursor.svg') 3 3, auto")
 
 const segmentsCount = 6;
 let coverAnim = null;
@@ -37,13 +39,11 @@ function init() {
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 
   window.addEventListener('popstate', function (event) {
-      event.preventDefault();
-        window.location.href = event.target.location.href;
+    event.preventDefault();
+    window.location.href = event.target.location.href;
   }, false);
 
   if (typeof isIndex == 'undefined') {
-    disable_scroll();
-
     isIntro = false;
 
     applyTemplate(() => {
@@ -79,6 +79,52 @@ function customCursor() {
 
   if (cursor) cursor.remove();
 
+  let onElement;
+
+  const createState = (e) => {
+
+    const defaultState = {
+      x: e.clientX,
+      y: e.clientY,
+      width: 42,
+      height: 42,
+      radius: '100px'
+    }
+
+    const computedState = {}
+
+    if (onElement != null) {
+      let top, left, width, height, radius;
+
+      if (onElement != "resize") {
+        top = onElement.getBoundingClientRect().top
+        left = onElement.getBoundingClientRect().left
+        width = onElement.getBoundingClientRect().width
+        height = onElement.getBoundingClientRect().height
+        radius = window.getComputedStyle(onElement).borderTopLeftRadius
+      } else {
+        top = e.clientY - defaultState.width * 1.4 / 2
+        left = e.clientX - defaultState.height * 1.4 / 2
+        width = defaultState.width * 1.4;
+        height = defaultState.height * 1.4;
+        radius = "50%";
+      }
+
+      computedState.x = left + width / 2
+      computedState.y = top + height / 2
+      computedState.width = width
+      computedState.height = height
+      computedState.radius = radius
+    }
+
+    return {
+      ...defaultState,
+      ...computedState
+    }
+  }
+
+  if(!state) state = createState({clientX:0, clientY:0});
+
   cursor = document.createElement("div");
   cursor.classList.add("cursor");
 
@@ -86,87 +132,49 @@ function customCursor() {
 
   const updateProperties = (elem, state) => {
 
-    elem.style.setProperty('--x', `${state.x}px`)
-    elem.style.setProperty('--y', `${state.y}px`)
-    elem.style.setProperty('--width', `${state.width}px`)
-    elem.style.setProperty('--height', `${state.height}px`)
+    elem.style.setProperty('transform', `translate(${(state.x - state.width / 2)}px, ${(state.y - state.height / 2)}px)`)
+    elem.style.setProperty('width', `${state.width}px`)
+    elem.style.setProperty('height', `${state.height}px`)
     elem.style.setProperty('--radius', state.radius)
     elem.style.setProperty('--scale', state.scale)
 
+  } 
+
+  requestAnimationFrame(render);
+
+  document.addEventListener('mousemove', (e) => {
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+
+    if (document.elementFromPoint(e.clientX, e.clientY).closest("[data-theme]")) {
+      let theme = document.elementFromPoint(e.clientX, e.clientY).closest("[data-theme]").dataset.theme;
+      cursor.classList.remove("black", "white");
+      cursor.classList.add(theme);
+      theme == "black" ? document.body.setAttribute("style", "cursor:url('./assets/img/cursor-black.svg') 3 3, auto") : document.body.setAttribute("style", "cursor:url('./assets/img/cursor.svg') 3 3, auto");
+    }
+  })
+
+  document.querySelectorAll('[data-cursor]').forEach((elem) => {
+    elem.addEventListener('mouseenter', () => onElement = elem)
+    elem.addEventListener('mouseleave', () => onElement = undefined)
+  })
+
+  document.querySelectorAll('a, [data-cursorh]').forEach((elem) => {
+    elem.addEventListener('mouseenter', () => onElement = "resize")
+    elem.addEventListener('mouseleave', () => onElement = undefined)
+  })
+
+  function render() {
+    state = createState({clientX:lerp(state.x, mouseX, 0.15), clientY:lerp(state.y, mouseY, 0.15)});
+    updateProperties(cursor, state)
+    requestAnimationFrame(render);
   }
 
-  document.querySelectorAll('.cursor').forEach((cursor) => {
-
-    let onElement
-
-    const createState = (e) => {
-
-      const defaultState = {
-        x: e.clientX,
-        y: e.clientY,
-        width: 42,
-        height: 42,
-        radius: '100px'
-      }
-
-      const computedState = {}
-
-      if (onElement != null) {
-        let top, left, width, height, radius;
-
-        if (onElement != "resize") {
-          top = onElement.getBoundingClientRect().top
-          left = onElement.getBoundingClientRect().left
-          width = onElement.getBoundingClientRect().width
-          height = onElement.getBoundingClientRect().height
-          radius = window.getComputedStyle(onElement).borderTopLeftRadius
-        } else {
-          top = e.clientY - defaultState.width * 1.4 / 2
-          left = e.clientX - defaultState.height * 1.4 / 2
-          width = defaultState.width * 1.4;
-          height = defaultState.height * 1.4;
-          radius = "50%";
-        }
-
-        computedState.x = left + width / 2
-        computedState.y = top + height / 2
-        computedState.width = width
-        computedState.height = height
-        computedState.radius = radius
-      }
-
-      return {
-        ...defaultState,
-        ...computedState
-      }
-
-    }
-
-    document.addEventListener('mousemove', (e) => {
-      const state = createState(e)
-
-
-      if (document.elementFromPoint(e.clientX, e.clientY).closest("[data-theme]")) {
-        let theme = document.elementFromPoint(e.clientX, e.clientY).closest("[data-theme]").dataset.theme;
-        cursor.classList.remove("black", "white");
-        cursor.classList.add(theme);
-        theme == "black" ? document.body.style.cursor = "url('./assets/img/cursor-black.svg') 3 3, auto" : document.body.style.cursor = "url('./assets/img/cursor.svg') 3 3, auto";
-      }
-
-      updateProperties(cursor, state)
-    })
-
-    document.querySelectorAll('[data-cursor]').forEach((elem) => {
-      elem.addEventListener('mouseenter', () => onElement = elem)
-      elem.addEventListener('mouseleave', () => onElement = undefined)
-    })
-
-    document.querySelectorAll('a, [data-cursorh]').forEach((elem) => {
-      elem.addEventListener('mouseenter', () => onElement = "resize")
-      elem.addEventListener('mouseleave', () => onElement = undefined)
-    })
-
-  })
+  function lerp(a, b, n) {
+    return (1 - n) * a + n * b;
+  }
 }
 
 function clearCover() {
@@ -285,33 +293,29 @@ function initContent() {
     elements_selector: "[data-src]",
     use_native: true,
   });
-
-  setTimeout(()=>{
-    enable_scroll();
-  }, 600);
 }
 
-function initConfigs(){
+function initConfigs() {
 
   grid.classList.remove("op02", "op0");
   document.querySelector(".loaded").classList.remove("fixed")
 
   let videocover = document.querySelector(".cover-video");
-  if(videocover) {
+  if (videocover) {
     videocover.remove();
     document.body.appendChild(videocover);
   }
 
   let gridOpacity = document.querySelector("[data-grid]");
-  if(gridOpacity) gridOpacity = gridOpacity.dataset.grid;
+  if (gridOpacity) gridOpacity = gridOpacity.dataset.grid;
 
   let gridmobdisabled = document.querySelector("[data-gridmobdisabled]");
-  if(gridmobdisabled) gridmobdisabled = gridmobdisabled.dataset.gridmobdisabled;
+  if (gridmobdisabled) gridmobdisabled = gridmobdisabled.dataset.gridmobdisabled;
 
-  
-  if(window.innerWidth < 991) if(gridmobdisabled) grid.classList.add(gridmobdisabled);
-  if(gridOpacity) grid.classList.add(gridOpacity);
-  
+
+  if (window.innerWidth < 991) if (gridmobdisabled) grid.classList.add(gridmobdisabled);
+  if (gridOpacity) grid.classList.add(gridOpacity);
+
 }
 
 function mobileOptimization() {
@@ -438,6 +442,7 @@ function initCarousels() {
   let galleries = document.querySelectorAll(".block-gallery-carousel");
   let galleries3 = document.querySelectorAll(".block-gallery-carousel-3");
   let simple = document.querySelectorAll(".block-carousel-simple");
+  let black = document.querySelectorAll(".block-carousel-black");
 
   carousels.forEach((carousel) => {
 
@@ -446,14 +451,91 @@ function initCarousels() {
       items: 1,
       slideBy: 'page',
       autoplay: true,
+      edgePadding: 20,
       gutter: carousel.dataset.gutter ? carousel.dataset.gutter : 0,
       edgePadding: carousel.dataset.edge ? carousel.dataset.edge : 0,
       autoplayButtonOutput: false,
       controlsPosition: "bottom",
       navPosition: "bottom",
       mouseDrag: true,
+      responsive: {
+        767: {
+          edgePadding: 20,
+          gutter: 20,
+          items: 1
+        },
+      },
       controlsText: ["<i class='icon-arrow-left'></i>", "<i class='icon-arrow-right'></i>"]
     });
+  });
+
+  black.forEach((gallery) => {
+    let slides = gallery.querySelectorAll(".block-carousel-item");
+
+    slides.forEach((slide, i) => {
+      slide.setAttribute("index", i + 1);
+    })
+
+    var slider = new Siema({
+      selector: gallery,
+      duration: 500,
+      easing: 'ease-out',
+      autoHeight:true,
+      perPage: {
+        320: 3,
+        768: 3,
+        991: 1,
+        1600: 1,
+      },
+      startIndex: 0,
+      draggable: true,
+      multipleDrag: true,
+      threshold: 20,
+      loop: true,
+      rtl: false,
+      onInit: onInit,
+      onChange: printSlideIndex,
+    });
+
+    function onInit() {
+
+      let nav = document.createElement("div")
+      nav.classList.add("block-gallery-controls", "wide");
+      nav.innerHTML = "<button type='button'><i class='block-gallery-prev icon-arrow-left'></i></button><button type='button'><i class='block-gallery-next icon-arrow-right'></i></button>";
+      gallery.parentNode.appendChild(nav);
+
+      let next = gallery.parentNode.querySelector(".block-gallery-next");
+      let prev = gallery.parentNode.querySelector(".block-gallery-prev");
+
+      slides.forEach((slide) => {
+        slide.classList.remove("active");
+      })
+
+      window.innerWidth > 991 ? slides[0].classList.add("active") : slides[1].classList.add("active");
+
+      prev.addEventListener('click', () => slider.prev(1));
+      next.addEventListener('click', () => slider.next(1));
+
+    }
+
+    function printSlideIndex() {
+
+      let rect = gallery.getBoundingClientRect();
+      let slides = gallery.querySelectorAll(".block-carousel-item");
+
+      let position = rect.top > 0 ? (rect.top + 100) : (window.innerHeight + rect.top) / 2;
+
+      setTimeout(() => {
+        slides.forEach((slide) => {
+          slide.classList.remove("active");
+        })
+
+        let element = document.elementFromPoint(window.innerWidth / 2 + 20, position);
+        if (element) element.closest(".block-carousel-item").classList.add("active");
+
+      }, 250);
+
+    }
   });
 
   simple.forEach((gallery) => {
@@ -549,8 +631,8 @@ function initCarousels() {
       gallery.parentNode.appendChild(counter);
       let current = gallery.parentNode.querySelector(".block-gallery-current");
 
-      let next =  gallery.parentNode.querySelector(".block-gallery-next");
-      let prev =  gallery.parentNode.querySelector(".block-gallery-prev");
+      let next = gallery.parentNode.querySelector(".block-gallery-next");
+      let prev = gallery.parentNode.querySelector(".block-gallery-prev");
       let length = gallery.parentNode.querySelector(".block-gallery-length");
 
       length.innerHTML = this.innerElements.length > 10 ? this.innerElements.length : ('0' + this.innerElements.length);
@@ -666,11 +748,8 @@ function initCarousels() {
         current.innerHTML = index > 10 ? index : ('0' + index);
 
       }, 250);
-
     }
-
   });
-
 }
 
 function initIntro() {
@@ -695,21 +774,22 @@ function initLinks() {
     link.addEventListener("click", (e) => {
       let target = link.getAttribute("target");
       if (!target) {
+
         e.preventDefault();
         let href = link.getAttribute("href");
         let delay = link.getAttribute("link-delay");
         let cdelay = link.getAttribute("cover-delay");
 
-        if(href) {
+        if (href) {
           link.classList.add("active");
 
           setTimeout(() => {
             link.classList.remove("active");
           }, 2000)
-  
+
           if (!delay) delay = 0;
           if (!cdelay) cdelay = 650;
-  
+
           navigate(href, delay, cdelay, e);
         }
       }
@@ -718,7 +798,8 @@ function initLinks() {
 };
 
 function navigate(href, delay, delayP = 900, e) {
-  disable_scroll();
+
+  enable_scroll();
 
   scrollNextCount = 0;
   if (!isNav) {
@@ -813,7 +894,7 @@ function initHeader() {
     header.classList.add(theme);
     if (cursor) cursor.classList.add(theme);
 
-    theme == "black" ? document.body.style.cursor = "url('./assets/img/cursor-black.svg') 3 3, auto" : document.body.style.cursor = "url('./assets/img/cursor.svg') 3 3, auto";
+    theme == "black" ? document.body.setAttribute("style", "cursor:url('./assets/img/cursor-black.svg') 3 3, auto") : document.body.setAttribute("style", "cursor:url('./assets/img/cursor.svg') 3 3, auto");
   });
 }
 
@@ -821,12 +902,12 @@ function forms() {
 
   let form = document.getElementById("contact-form");
 
-  if(form) {
+  if (form) {
     let pristine = new Pristine(form);
 
     NodeList.prototype.map = Array.prototype.map;
     var inputs = document.querySelectorAll("input, textarea");
-  
+
     inputs.map(function (elm) {
       elm.addEventListener("change", function (e) {
         if (elm.value.length > 0) {
@@ -836,25 +917,25 @@ function forms() {
         }
       });
     });
-  
+
     var forms = document.querySelectorAll("form");
-  
+
     forms.map(function (elm) {
       elm.addEventListener("submit", function (e) {
         e.preventDefault();
-  
+
         let form = e.target;
         let action = form.getAttribute("action");
         let xhttp = new XMLHttpRequest();
-  
+
         let valid = pristine.validate();
-  
-        if(valid) {
+
+        if (valid) {
           xhttp.open("POST", action, true);
           xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           let email = form.querySelector("[type=email]").value;
-          xhttp.send(serialize(elm)+"&email="+email);
-    
+          xhttp.send(serialize(elm) + "&email=" + email);
+
           xhttp.onreadystatechange = function (data) {
             if (xhttp.status == 200 && xhttp.readyState == 4) {
               if (data.target.responseText == "1") {
@@ -924,7 +1005,7 @@ function scrollEvents() {
     if (next && !next.classList.contains('disabled')) {
       const href = next.dataset.target;
       const type = next.dataset.type;
-      if(type != "click") {
+      if (type != "click") {
         var rect = next.getBoundingClientRect();
         if (rect.top < 1) {
           if (scrollNextCount > 10) {
@@ -950,6 +1031,9 @@ function menuEvents() {
     disable_scroll();
 
     if (menuToggler.classList.contains("active")) {
+      document.body.setAttribute("style", "cursor:url('./assets/img/cursor.svg') 3 3, auto");
+      cursor.classList.remove("black");
+      cursor.classList.add("white");
       cover.classList.add("formenu");
       addClassToGrid("formenu");
       loaderBar.classList.add("formenu");
@@ -964,7 +1048,7 @@ function menuEvents() {
         menu.classList.remove("hide");
         cover.classList.remove("formenu");
 
-        setTimeout(()=>{
+        setTimeout(() => {
           clearGrid("formenu");
         }, 600);
 

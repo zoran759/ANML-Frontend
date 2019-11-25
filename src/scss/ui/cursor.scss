@@ -3,16 +3,9 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: var(--width);
-	height: var(--height);
-	transform:
-		translate(
-			calc(var(--x) - var(--width) / 2),
-			calc(var(--y) - var(--height) / 2)
-		);
-	transition-duration: .2s;
-	transition-timing-function: cubic-bezier(.25, .25, .42, 1);
-	transition-property: width, height, transform;
+	transition-duration: .4s;
+	transition-timing-function: ease;
+	transition-property: width, height;
 	z-index: 999;
 	pointer-events: none;
 	will-change: transform;
@@ -29,25 +22,27 @@
 		right: 0;
 		bottom: 0;
 		border-radius: var(--radius);
+		border-radius: 50%;
 		border: 1px solid $color-white;
 		opacity: var(--scale);
 		transform: scale(var(--scale));
+		transform-origin: center center;
 		transition:
 			.3s cubic-bezier(.25, .25, .42, 1) opacity,
-			.3s cubic-bezier(.25, .25, .42, 1) transform,
-			.1s cubic-bezier(.25, .25, .42, 1) border-radius;
+			.3s ease transform,
+			.1s ese border-radius;
   }
 
   &.black {
     &::after {
       border: 1px solid $color-black;
-    }
+	}
   }
 
   &.white {
     &::after {
       border: 1px solid $color-white;
-    }
+	}
   }
   
   @media screen and (max-width: $mobile) {
